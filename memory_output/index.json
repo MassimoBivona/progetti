@@ -1,0 +1,71 @@
+{
+  "metadata": [
+    {
+      "id": 0,
+      "text": "The Apollo program was a human spaceflight program conducted by NASA, the United States' space agency.\nIts primary goal was to land the first humans on the Moon.\nApollo 11 was the first mission to achieve this goal on July 20, 1969.\nThe mission commander was Neil Armstrong, who became the first person to walk on the Moon.\nHe was followed by Buzz Aldrin. Michael Collins piloted the command module in lunar orbit.\nThere were six Apollo missions that landed on the Moon in total, ending with Apollo 17 in 1972.",
+      "frame": 0,
+      "length": 510
+    },
+    {
+      "id": 1,
+      "text": "# A Brief History of Space Exploration\n\nSpace exploration began with the launch of the Soviet Union's Sputnik 1 satellite in 1957.\nThis event marked the beginning of the Space Race between the USSR and the USA.\n\n## Key Milestones\n\n- **1957:** Sputnik 1, the first artificial satellite, is launched.\n- **1961:** Yuri Gagarin becomes the first human to orbit the Earth.\n- **1969:** Apollo 11 lands the first humans on the Moon.\n- **1998:** The International Space Station (ISS) construction begins.\n- **2012:** The Curiosity rover lands on Mars to search for signs of past life.\n\nModern space exploration is driven by both government agencies like NASA and private companies such as SpaceX and Blue Origin. Their goals include returning to the Moon, sending humans to Mars, and studying the wider universe.",
+      "frame": 1,
+      "length": 804
+    }
+  ],
+  "chunk_to_frame": {
+    "0": 0,
+    "1": 1
+  },
+  "frame_to_chunks": {
+    "0": [
+      0
+    ],
+    "1": [
+      1
+    ]
+  },
+  "config": {
+    "qr": {
+      "version": 35,
+      "error_correction": "M",
+      "box_size": 5,
+      "border": 3,
+      "fill_color": "black",
+      "back_color": "white"
+    },
+    "codec": "h265",
+    "chunking": {
+      "chunk_size": 1024,
+      "overlap": 32
+    },
+    "retrieval": {
+      "top_k": 5,
+      "batch_size": 100,
+      "max_workers": 4,
+      "cache_size": 1000
+    },
+    "embedding": {
+      "model": "all-MiniLM-L6-v2",
+      "dimension": 384
+    },
+    "index": {
+      "type": "Flat",
+      "nlist": 100
+    },
+    "llm": {
+      "model": "gemini-2.0-flash-exp",
+      "max_tokens": 8192,
+      "temperature": 0.1,
+      "context_window": 32000
+    },
+    "chat": {
+      "max_history": 10,
+      "context_chunks": 5
+    },
+    "performance": {
+      "prefetch_frames": 50,
+      "decode_timeout": 10
+    }
+  }
+}

@@ -1,0 +1,88 @@
+# --- Core Technologies ---
+memvid
+gradio
+vllm==0.10.0
+
+# --- Foundational ML/AI Libraries ---
+torch==2.7.1
+torchvision
+torchaudio
+transformers==4.55.2
+accelerate
+sentence-transformers
+
+# --- Attention & Performance Kernels ---
+flash_attn==2.7.3
+flash-linear-attention==0.1
+triton==3.3.1
+xformers
+bitsandbytes
+einops
+
+# --- Data Handling & Scientific Computing ---
+pandas
+scikit-learn
+Pillow
+opencv-python
+matplotlib
+numpy
+scipy
+safetensors
+
+# --- Web & Server Frameworks ---
+fastapi
+uvicorn
+python-multipart
+requests
+
+# --- Utilities & Code Quality ---
+PyPDF2
+black
+flake8
+pydantic
+pyyaml
+tqdm
+fsspec
+joblib
+networkx
+packaging
+python-dateutil
+six
+sympy
+threadpoolctl
+tzdata
+zipp
+certifi
+charset-normalizer
+idna
+importlib-metadata
+jinja2
+MarkupSafe
+mpmath
+urllib3
+decorator
+setuptools
+setuptools-scm
+
+# --- Video/Audio Processing ---
+av
+
+# --- Misc & HuggingFace Ecosystem ---
+hf-xet
+
+# --- NVIDIA Specific (from previous steps, for full hardware support) ---
+# Kept for compatibility with user's powerful hardware.
+nvidia-cublas-cu12
+nvidia-cuda-cupti-cu12
+nvidia-cuda-nvrtc-cu12
+nvidia-cuda-runtime-cu12
+nvidia-cudnn-cu12
+nvidia-cufft-cu12
+nvidia-cufile-cu12
+nvidia-curand-cu12
+nvidia-cusolver-cu12
+nvidia-cusparse-cu12
+nvidia-cusparselt-cu12
+nvidia-nccl-cu12
+nvidia-nvjitlink-cu12
+nvidia-nvtx-cu12
