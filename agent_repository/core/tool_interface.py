@@ -4,9 +4,6 @@ class ToolInterface(ABC):
     """
     An abstract base class for all tools available to the Autonomous Agent.
     It defines a standard interface for the agent's reasoner to interact with.
-
-    This ensures that the core reasoner can handle any tool in a generic way,
-    understanding its purpose and how to execute it.
     """
 
     @property
@@ -18,14 +15,12 @@ class ToolInterface(ABC):
     @property
     @abstractmethod
     def description(self) -> str:
-        """A brief description of what the tool does, for the reasoner to understand its purpose."""
+        """A brief description of what the tool does."""
         pass
 
     @abstractmethod
-    def execute(self, *args, **kwargs):
+    def execute(self, **kwargs):
         """
         Executes the tool with the given arguments and returns the result.
-
-        The arguments and return types will be specific to each tool.
         """
         pass

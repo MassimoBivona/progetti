@@ -1,79 +1,69 @@
-# The Autonomous Creative Agent
+# 🔥 Project Phoenix: The Autonomous Creative Agent (MVP)
 
-This repository contains the implementation of a sophisticated, autonomous creative agent. It is designed to take a high-level idea from a user (e.g., "create a video about the Roman Empire") and independently reason, plan, and execute a complex workflow to generate a final creative output.
+Welcome to Project Phoenix. This repository contains a real, working prototype of an autonomous creative agent. It's designed to demonstrate a core, end-to-end pipeline: taking a high-level user idea, using a powerful local LLM to brainstorm a creative prompt, and then using a state-of-the-art image generation model to create a high-quality piece of art.
 
-The agent's architecture is built on a "brain" and a "toolbox" principle, combining multiple cutting-edge AI technologies.
+This project is built on the **"Keystone" architecture**: I, the AI agent, have built the entire engine, and I am now handing you, the user, the final "keystone" to complete it.
 
 ---
 
-## Core Philosophy & Technologies
+## How It Works: The Idea-to-Image Pipeline
 
-This agent operates on a four-stage creative process, orchestrated by an autonomous core inspired by **Absolute Zero** and **DeepConf** reasoning principles.
+This Minimum Viable Product (MVP) proves the core concept with a two-step process:
 
-1.  **Knowledge Retrieval (`Memvid`):** The agent first consults its knowledge base to gather context and facts about the user's idea. This knowledge is stored in a highly compressed, searchable video format.
-2.  **Reasoning & Scripting (`SpikingBrain`):** Using the retrieved context, the agent's reasoning engine synthesizes a structured plan and a creative script, breaking down the story into scenes with descriptive prompts.
-3.  **Initial Visualization (`Fooocus`):** The agent generates a high-quality "seed" image for the first scene of the script, setting the visual tone for the entire piece.
-4.  **Video Animation (`FramePack`):** Using the seed image and the remaining script prompts, the agent animates the story, generating the final video output.
+1.  **The Brain (`LLMService`):** When you provide an idea, the agent first consults its "brain"—a powerful, locally-run Large Language Model (`Nous-Hermes-2 Mixtral 8x7B`). This LLM acts as a creative partner, brainstorming and generating a detailed, artistic prompt based on your initial concept.
 
-The agent's "brain" (`core/reasoner.py`) is capable of generating multiple plans, evaluating its confidence in each, and pursuing only the most promising path, ensuring both efficiency and quality.
+2.  **The Artist (`ImageGenerator`):** The generated prompt is then passed to the "artist"—a high-performance image generation model (`JuggernautXL v8`). This model interprets the artistic prompt and creates the final, high-resolution image.
+
+Both of these core components are designed to be **auto-provisioning**. The first time you run the application, the agent will automatically download the necessary models (be aware, this is a large download of over 35 GB).
+
+---
+
+## 🔑 The Keystone: Installing the LLM Brain
+
+This project is fully functional *except* for one component that **only you can install** due to system-specific hardware compilation: the LLM engine itself.
+
+I have built everything else. To bring the agent's brain to life, please follow these two steps precisely.
+
+### Step 1: Install Dependencies
+First, install all the other required Python libraries using the `requirements.txt` file.
+```bash
+pip install -r agent_repository/requirements.txt
+```
+
+### Step 2: Install the Brain (with GPU Acceleration)
+Now, install `llama-cpp-python` with the correct flags for your powerful NVIDIA GPU. This command will compile the library to use your CUDA cores, providing maximum performance. **This is the most important step.**
+
+**Copy and paste this exact command into your terminal:**
+```bash
+CMAKE_ARGS="-DGGML_CUDA=on" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir
+```
+
+---
+
+## Running the Agent
+
+Once the installation is complete, you can run the agent. Because we have built this as a professional Python package, you must run it as a module from the **root directory of the project** (the one containing `setup.py` and `agent_repository`).
+
+**Use this exact command to launch the Gradio UI:**
+```bash
+python -m agent_repository.ui.app
+```
+
+Navigate to the local URL provided in your terminal (e.g., `http://127.0.0.1:7860`).
+
+1.  The first time you run the app, the agent will download the required models. Please be patient, as this can take some time. Monitor the progress in your terminal.
+2.  Once loaded, enter your creative idea into the textbox.
+3.  Click "Generate".
+4.  Watch the live log as the agent first uses the LLM to generate a prompt, and then uses the image model to create your artwork.
 
 ---
 
 ## Project Structure
 
--   `main.py`: The minimalist entry point. You only need to provide your idea here.
--   `core/`: Contains the agent's "brain" (`reasoner.py`) and the standard `tool_interface.py`.
--   `knowledge/`: The tool for managing the `Memvid` knowledge base.
--   `reasoning/`: The tool wrapper for the `SpikingBrain` scripting model.
--   `image_gen/`: The tool wrapper for the `Fooocus` image generator.
--   `video_gen/`: The tool wrapper for the `FramePack` video generator.
--   `requirements.txt`: A unified list of all project dependencies.
-
----
-
-## How to Use
-
-The agent is designed for simplicity. All complex operations are handled internally.
-
-### Step 1: Build the Knowledge Base (One-time setup)
-
-Before the agent can reason about topics, it needs knowledge. You can provide it with documents (in the `knowledge/sample_data` directory) and run the build command once.
-
-```bash
-# This command is for manual knowledge base management if needed.
-# The autonomous agent will use this tool automatically.
-python knowledge/manager.py build knowledge/sample_data
-```
-
-### Step 2: Execute an Idea
-
-This is the primary way to interact with the agent. Provide your high-level idea as a command-line argument.
-
-**Usage:**
-```bash
-python main.py "Your creative idea here"
-```
-
-**Example:**
-```bash
-python main.py "Create a short, dramatic video about the rise and fall of the Roman Empire"
-```
-
-The agent will then initiate its autonomous workflow: thinking, planning, and executing each step. The final output (a video file) will be saved in the `video_gen/output/` directory.
-
----
-
-## Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository_url>
-    cd agent_repository
-    ```
-
-2.  **Install all dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-*Note: The current implementation uses simulated models within the tool wrappers. To make it fully functional, you would need to download the actual model weights for SpikingBrain, Fooocus, and FramePack and implement the loading/inference logic within each respective `wrapper.py` file.*
+-   `setup.py`: Makes this project a professional, installable Python package.
+-   `agent_repository/`: The main package containing all the agent's logic.
+    -   `core/`: Contains the `LLMService` (the brain) and the `DownloadManager`.
+    -   `image_gen/`: Contains the `ImageGenerator` (the artist).
+    -   `reasoning/`: The interface to the `LLMService`.
+    -   `ui/`: Contains the Gradio web interface.
+    -   `models/`: The directory where the downloaded AI models will be stored.
