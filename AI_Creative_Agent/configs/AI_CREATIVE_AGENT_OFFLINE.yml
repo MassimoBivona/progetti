@@ -1,0 +1,124 @@
+# AI Creative Agent Offline - Workflow Configuration
+# This file orchestrates the entire creative process, from idea to final multimedia output.
+# All paths and settings are configured for a local, offline-first environment.
+
+# -------------------------
+# Project Settings
+# -------------------------
+project:
+  name: "My Epic Fantasy Saga"
+  base_output_path: "./outputs" # All generated assets will be saved here, organized by project name and timestamp.
+
+# -------------------------
+# Local Model Endpoints & Settings
+#
+# Configure the local API endpoints for each generative model.
+# Ensure these services are running before launching the agent.
+# -------------------------
+models:
+  text:
+    # Recommended: Run Llama3 70B or Mixtral 8x7B using a tool like vLLM, Oobabooga, or Llamafile
+    # which provides an OpenAI-compatible API endpoint.
+    endpoint: "http://127.0.0.1:5000/v1"
+    api_key: "sk-local" # Placeholder, adjust if your local server requires a key.
+    generation_model: "local-model/llama3-70b-instruct" # The model name your server uses.
+    reasoning_model: "local-model/mixtral-8x7b-instruct" # A model for AZR and DeepConf reasoning.
+
+  image:
+    # Recommended: Run Stable Diffusion XL (e.g., via ComfyUI or Automatic1111) with its API enabled.
+    # This example uses a standard A1111 API endpoint.
+    endpoint: "http://127.0.0.1:7860/sdapi/v1/txt2img"
+    model: "sd_xl_base_1.0.safetensors" # The SDXL checkpoint to use.
+    negative_prompt: "ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face"
+
+  video:
+    # Fooocus and FramePack are assumed to be installed locally.
+    # The agent will call them via command-line interfaces.
+    fooocus:
+      # Path to the Fooocus python executable or launch script.
+      executable_path: "C:/path/to/Fooocus/launch.py"
+    framepack:
+      # Path to the FramePack executable or main script.
+      executable_path: "C:/path/to/FramePack/main.py"
+
+  audio:
+    musicgen:
+      # Assuming MusicGen is accessible via a local API or a command-line wrapper.
+      # This could be a custom script you write to wrap the model.
+      # Example: python run_musicgen.py --prompt "epic fantasy battle music"
+      wrapper_script: "C:/path/to/musicgen/run.py"
+    voice:
+      # Coqui TTS or OpenVoice, assumed to be callable via a script.
+      # Example: python run_tts.py --text "The hero entered the dark cave." --speaker "narrator"
+      wrapper_script: "C:/path/to/coqui-tts/run.py"
+
+  3d:
+    instant3d:
+      # Path to the Instant3D executable or main script.
+      wrapper_script: "C:/path/to/instant3d/run.py"
+
+# -------------------------
+# Creative Workflow Pipeline
+#
+# Defines the sequence of steps the agent will follow.
+# Each step corresponds to a module and a function to be called.
+# The agent will ask for user approval between each major step.
+# -------------------------
+workflow:
+  - step: 1
+    name: "Concept Refinement"
+    module: "text"
+    description: "Refine the initial user prompt using AZR and DeepConf reasoning to build a solid foundation."
+    enabled: true
+
+  - step: 2
+    name: "Core Content Generation"
+    module: "text"
+    sub-steps:
+      - "Generate Plot"
+      - "Generate Character Profiles"
+      - "Generate Lore"
+    enabled: true
+
+  - step: 3
+    name: "Scriptwriting"
+    module: "text"
+    description: "Write scripts for different scenes based on the plot. Generate in multiple languages if requested."
+    languages: ["en_US", "it_IT"]
+    enabled: true
+
+  - step: 4
+    name: "Visual Development"
+    module: "image"
+    description: "Create concept art for characters, environments, and key scenes."
+    enabled: true
+
+  - step: 5
+    name: "Scene Illustration"
+    module: "image"
+    description: "Generate high-quality illustrations for specific scenes from the script."
+    enabled: true
+
+  - step: 6
+    name: "Video Clip Production"
+    module: "video"
+    description: "Animate key scenes using the Fooocus + FramePack pipeline."
+    enabled: true
+
+  - step: 7
+    name: "Audio Production"
+    module: "audio"
+    description: "Generate background music and voiceovers for the video clips."
+    enabled: true
+
+  - step: 8
+    name: "3D Model Creation"
+    module: "3d"
+    description: "Create 3D models (STL) of key characters or objects."
+    enabled: false # Disabled by default, enable if needed.
+
+  - step: 9
+    name: "Promotional Material"
+    module: "image"
+    description: "Generate promotional images and social media posts."
+    enabled: false # Disabled by default.
